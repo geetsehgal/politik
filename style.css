@@ -378,6 +378,38 @@ select:focus-visible {
   padding: 6px 20px;
 }
 
+.site-footer {
+  border-top: 3px solid var(--ink);
+  background: linear-gradient(90deg, var(--blue), var(--pink) 50%, var(--lime));
+  padding: 26px 28px;
+  text-align: center;
+}
+
+.site-footer a {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 12px 24px;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  box-shadow: 6px 6px 0 var(--ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--ink);
+}
+
+.site-footer a:active {
+  transform: translate(0, 0);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
 /* ---------- Small screens ---------- */
 
 @media (max-width: 860px) {
