@@ -9,7 +9,10 @@
 <body>
 
   <header class="topbar">
-    <span class="mark">politik</span>
+    <div class="brandmark">
+      <span class="mark">politik</span>
+      <span class="live" aria-hidden="true"></span>
+    </div>
     <h1>Ops Console</h1>
     <span class="sub">Brand response desk</span>
   </header>
@@ -18,7 +21,7 @@
 
     <!-- LEFT 50%: Recent Updates (top) + Quality Updates (below) -->
     <section class="col">
-      <section class="panel" id="recent-panel">
+      <section class="panel panel--blue" id="recent-panel">
         <div class="panel-head">
           <h2>Recent updates</h2>
           <a class="view-all" href="updates.html">View all →</a>
@@ -26,7 +29,7 @@
         <ul class="update-list" id="recent-updates-list"></ul>
       </section>
 
-      <section class="panel" id="quality-panel">
+      <section class="panel panel--pink" id="quality-panel">
         <div class="panel-head">
           <h2>Quality updates</h2>
           <span class="count">10 mandatory points</span>
@@ -34,6 +37,41 @@
         <ol class="quality-list" id="quality-updates-list"></ol>
       </section>
     </section>
+
+    <!-- RIGHT 50%: one bordered block — heading, then selectors, then preview -->
+    <section class="col">
+      <section class="panel panel--lime" id="preview-panel">
+        <div class="panel-head">
+          <h2>Email preview</h2>
+        </div>
+
+        <div class="selectors">
+          <div class="field">
+            <label for="brand-select">Brand</label>
+            <select id="brand-select">
+              <option value="">Select a brand</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="scenario-select">Scenario</label>
+            <select id="scenario-select">
+              <option value="">Select a scenario</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="preview-divider" aria-hidden="true"></div>
+
+        <div id="email-preview"></div>
+      </section>
+    </section>
+
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
 
     <!-- RIGHT 50%: brand + scenario selectors, then email preview -->
     <section class="col">
