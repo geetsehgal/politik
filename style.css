@@ -1,35 +1,300 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All updates — Ops Console</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
 
-  <header class="topbar">
-    <span class="mark">politik</span>
-    <h1>Ops Console</h1>
-    <span class="sub">Brand response desk</span>
-  </header>
+:root {
+  --bg: #f4f5f7;
+  --panel: #ffffff;
+  --border: #dee2e7;
+  --text: #1a2129;
+  --text-muted: #626c78;
+  --teal: #1f6f78;
+  --teal-dark: #16535b;
+  --amber: #8a5a2b;
+  --amber-bg: #f7efe4;
+  --focus: #1f6f78;
+}
 
-  <div class="page">
-    <a class="back" href="index.html">← Back to dashboard</a>
-    <h1>All updates</h1>
-    <ul class="update-list" id="all-updates-list"></ul>
-  </div>
+* { box-sizing: border-box; }
 
-  <script src="data.js"></script>
-  <script>
-    document.getElementById("all-updates-list").innerHTML = RECENT_UPDATES
-      .map(u => `
-        <li>
-          <time datetime="${u.date}">${u.date}</time>
-          <p>${u.title}</p>
-        </li>`)
-      .join("");
-  </script>
-</body>
-</html>
+html, body {
+  height: 100%;
+}
 
+body {
+  margin: 0;
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+a { color: var(--teal-dark); }
+a:focus-visible,
+button:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.topbar {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.topbar .mark {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--teal-dark);
+  background: #e7f1f1;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+.topbar h1 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.topbar .sub {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-left: auto;
+}
+
+/* ---------- Dashboard: flexbox 50/50 ---------- */
+
+.dashboard {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  padding: 20px;
+  min-height: calc(100vh - 62px);
+}
+
+.col {
+  flex: 1 1 50%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.panel-head h2 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.panel-head .count {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.panel-head a.view-all {
+  font-size: 13px;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.panel-head a.view-all:hover {
+  border-bottom-color: var(--teal-dark);
+}
+
+/* Recent updates */
+
+#recent-panel { flex: 1 1 40%; }
+
+.update-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.update-list li {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+}
+.update-list li:first-child { border-top: none; }
+
+.update-list time {
+  flex: 0 0 auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-top: 1px;
+}
+
+.update-list p {
+  margin: 0;
+  font-size: 13.5px;
+}
+
+/* Quality updates */
+
+#quality-panel { flex: 1 1 60%; }
+
+.quality-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: quality;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quality-list li {
+  counter-increment: quality;
+  display: flex;
+  gap: 10px;
+  font-size: 13.5px;
+  align-items: flex-start;
+}
+
+.quality-list li::before {
+  content: counter(quality);
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: var(--amber-bg);
+  color: var(--amber);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+/* ---------- Right column: selectors + preview ---------- */
+
+.selectors {
+  display: flex;
+  gap: 16px;
+}
+
+.field {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.field select {
+  font: inherit;
+  font-size: 13.5px;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--panel);
+  color: var(--text);
+}
+
+#preview-panel {
+  flex: 1 1 auto;
+}
+
+.preview-empty {
+  margin: auto;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  max-width: 240px;
+}
+
+.email-card {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.email-meta {
+  background: #f7f8fa;
+  border-bottom: 1px solid var(--border);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.email-meta .row {
+  display: flex;
+  gap: 8px;
+  font-size: 12.5px;
+}
+
+.email-meta .row .k {
+  color: var(--text-muted);
+  flex: 0 0 46px;
+}
+
+.email-meta .row .v {
+  font-weight: 500;
+}
+
+.email-body {
+  padding: 16px;
+  font-size: 13.5px;
+  white-space: pre-wrap;
+}
+
+/* ---------- Updates page ---------- */
+
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+.page .back {
+  display: inline-block;
+  font-size: 13px;
+  margin-bottom: 18px;
+  text-decoration: none;
+}
+
+.page h1 {
+  font-size: 18px;
+  margin: 0 0 18px;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 860px) {
+  .dashboard { flex-direction: column; }
+  .col { flex: 1 1 auto; }
+  .selectors { flex-direction: column; }
+}
