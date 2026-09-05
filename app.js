@@ -81,4 +81,3 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("brand-select").addEventListener("change", renderPreview);
   document.getElementById("scenario-select").addEventListener("change", renderPreview);
 });
-
